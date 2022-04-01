@@ -21,8 +21,8 @@ contract ExampleOracleSimple {
   uint public price0CumulativeLast;
   uint public price1CumulativeLast;
   uint32 public blockTimestampLast;
-  FixedPoint.uq112x112 public price0Average;
-  FixedPoint.uq112x112 public price1Average;
+  FixedPoint.uq112x112 public price0Average; // State variable
+  FixedPoint.uq112x112 public price1Average; // State variable
 
   constructor(
     address factory,
@@ -35,8 +35,8 @@ contract ExampleOracleSimple {
     pair = _pair;
     token0 = _pair.token0();
     token1 = _pair.token1();
-    price0CumulativeLast = _pair.price0CumulativeLast(); // fetch the current accumulated price value (1 / 0)
-    price1CumulativeLast = _pair.price1CumulativeLast(); // fetch the current accumulated price value (0 / 1)
+    price0CumulativeLast = _pair.price0CumulativeLast(); // Fetch the current accumulated price value (1 / 0)
+    price1CumulativeLast = _pair.price1CumulativeLast(); // Fetch the current accumulated price value (0 / 1)
     uint112 reserve0;
     uint112 reserve1;
     (reserve0, reserve1, blockTimestampLast) = _pair.getReserves();
