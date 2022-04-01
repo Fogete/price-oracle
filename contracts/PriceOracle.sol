@@ -41,8 +41,8 @@ contract TarotPriceOracle is ITarotPriceOracle {
       uniswapV2Pair
     ).getReserves();
     uint224 priceLatest = UQ112x112.encode(reserve1).uqdiv(reserve0);
-    uint32 timeElapsed = getBlockTimestamp() - blockTimestampLast; // overflow is desired
-    // * never overflows, and + overflow is desired
+    uint32 timeElapsed = getBlockTimestamp() - blockTimestampLast; // Overflow is desired
+    // * Never overflows, and + overflow is desired
     priceCumulative += uint(priceLatest) * timeElapsed;
   }
 
@@ -74,7 +74,7 @@ contract TarotPriceOracle is ITarotPriceOracle {
     uint priceCumulativeLast;
 
     if (blockTimestamp - lastUpdateTimestamp >= MIN_T) {
-      // update price
+      // Update price
       priceCumulativeLast = pair.latestIsSlotA
         ? pair.priceCumulativeSlotA
         : pair.priceCumulativeSlotB;
@@ -93,7 +93,7 @@ contract TarotPriceOracle is ITarotPriceOracle {
         !pair.latestIsSlotA
       );
     } else {
-      // don't update; return price using previous priceCumulative
+      // Don't update; return price using previous priceCumulative
       lastUpdateTimestamp = pair.latestIsSlotA
         ? pair.lastUpdateSlotB
         : pair.lastUpdateSlotA;
@@ -102,9 +102,9 @@ contract TarotPriceOracle is ITarotPriceOracle {
         : pair.priceCumulativeSlotA;
     }
 
-    T = blockTimestamp - lastUpdateTimestamp; // overflow is desired
-    require(T >= MIN_T, "TarotPriceOracle: NOT_READY"); //reverts only if the pair has just been initialized
-    // / is safe, and - overflow is desired
+    T = blockTimestamp - lastUpdateTimestamp; // Overflow is desired
+    require(T >= MIN_T, "TarotPriceOracle: NOT_READY"); // Reverts only if the pair has just been initialized
+    // Is safe, and - overflow is desired
     price = toUint224((priceCumulativeCurrent - priceCumulativeLast) / T);
   }
 
